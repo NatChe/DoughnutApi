@@ -1,12 +1,58 @@
 <?php
+/** Namespaces */
+namespace App\Entity;
 
 /**
- * Created by PhpStorm.
- * User: natche
- * Date: 02/03/2019
- * Time: 15:10
+ * Trait TimestampTrait
+ * @package App\Entity
  */
-class TimestampableTrait
-{
+trait TimestampableTrait {
 
+    /**
+     * @var \DateTime $lastUpdate
+     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     */
+    protected $updatedAt;
+
+    /**
+     * @var \DateTime $lastUpdate
+     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     */
+    protected $createdAt;
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt(): \DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     * @return self
+     */
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     * @return self
+     */
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
 }

@@ -14,5 +14,6 @@
 ###< symfony/web-server-bundle ###
 
 ###> docker ###
+docker-compose.yml
 .docker/data/*
 ###< docker ###
