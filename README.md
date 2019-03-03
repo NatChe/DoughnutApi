@@ -1,2 +1,2 @@
-# MicroServiceStarter
-Starter project for a faster microservice development
+# Doughnut API
+Basic API project built with Symfony 4
