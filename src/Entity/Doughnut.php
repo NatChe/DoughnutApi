@@ -7,7 +7,7 @@ namespace App\Entity;
 use App\Entity\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Class Doughnut
@@ -31,18 +31,21 @@ class Doughnut
     /**
      * @var string
      * @ORM\Column(name="reference", type="string", nullable=false, unique=true)
+     * @Groups("default")
      */
     private $reference;
 
     /**
      * @var string
      * @ORM\Column(name="name", type="string", nullable=false)
+     * @Groups("default")
      */
     private $name;
 
     /**
      * @var string
      * @ORM\Column(name="flavour", type="string", nullable=false)
+     * @Groups("default")
      */
     private $flavour;
 

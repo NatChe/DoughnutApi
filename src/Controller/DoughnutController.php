@@ -7,14 +7,17 @@ use App\Entity\Doughnut;
 use App\Form\DoughnutType;
 use App\Services\FormProcessor;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Class DoughnutController
  * @package App\Controller
+ * @method Doughnut doughnut()
  */
 class DoughnutController extends AbstractController
 {
@@ -49,7 +52,22 @@ class DoughnutController extends AbstractController
         $doughnuts = $this->getDoctrine()
             ->getRepository(Doughnut::class)
             ->findAll();
-        return new JsonResponse($doughnuts);
+        return $this->json($doughnuts, Response::HTTP_OK, [], [
+            'groups' => ['default'],
+        ]);
+    }
+
+    /**
+     * @Route("/doughnuts/{reference}/", methods={"GET"})
+     * @param Doughnut $doughnut
+     * @return JsonResponse
+     * @ParamConverter("doughnut", class="App\Entity\Doughnut")
+     */
+    public function show(Doughnut $doughnut)
+    {
+        return $this->json($doughnut, Response::HTTP_OK, [], [
+            'groups' => ['default']
+        ]);
     }
 
     /**
@@ -57,7 +75,7 @@ class DoughnutController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    public function post(EntityManagerInterface $entityManager)
+    public function new(EntityManagerInterface $entityManager)
     {
        try {
            $doughnut = $this->getFormProcessor()->submit(DoughnutType::class);
@@ -70,6 +88,21 @@ class DoughnutController extends AbstractController
            // TODO return form errors
            return $this->generateResponse(Response::HTTP_BAD_REQUEST);
        }
+    }
+
+    /**
+     * @Route("/doughnuts/{reference}", methods={"DELETE"})
+     * @param EntityManagerInterface $entityManager
+     * @param Doughnut $doughnut
+     * @return JsonResponse
+     * @ParamConverter("doughnut", class="App\Entity\Doughnut")
+     */
+    public function remove(EntityManagerInterface $entityManager, Doughnut $doughnut)
+    {
+        $entityManager->remove($doughnut);
+        $entityManager->flush();
+
+        return $this->json('', Response::HTTP_NO_CONTENT);
     }
 
     /**
