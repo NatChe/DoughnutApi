@@ -43,3 +43,7 @@ services:
     App\Event\Subscriber\DoctrineEventSubscriber:
         tags:
             - { name: 'doctrine.event_listener', event: 'prePersist' }
+
+    App\Event\Subscriber\ApiExceptionSubscriber:
+        tags:
+            - { name: 'kernel.event_subscriber' }

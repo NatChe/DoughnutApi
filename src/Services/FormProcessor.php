@@ -3,6 +3,7 @@
 namespace App\Services;
 
 /** Usages */
+use App\Exceptions\FormValidationException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\FormFactory;
@@ -77,7 +78,8 @@ class FormProcessor
     /**
      * @param $formType
      * @param null $data
-     * @return \Symfony\Component\Form\FormInterface
+     * @return mixed
+     * @throws FormValidationException
      */
     public function submit($formType, $data = null) {
         $form = $this->formFactory->create($formType, $data, [
@@ -86,10 +88,11 @@ class FormProcessor
         $form->handleRequest($this->getRequest());
 
         if ((!$form->isSubmitted()) || (!$form->isValid())) {
-            if ($form->getErrors(true) instanceof ArrayCollection) {
-                throw new BadRequestHttpException($form->getErrors(true)->current()->getMessage());
+            if ($form->getErrors(true)->count() > 0) {
+                throw new FormValidationException($form);
+            } else {
+                throw new BadRequestHttpException('Invalid format');
             }
-            throw new BadRequestHttpException('Invalid format');
         }
 
         return $form->getData();

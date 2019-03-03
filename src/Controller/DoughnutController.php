@@ -77,17 +77,13 @@ class DoughnutController extends AbstractController
      */
     public function new(EntityManagerInterface $entityManager)
     {
-       try {
-           $doughnut = $this->getFormProcessor()->submit(DoughnutType::class);
-           $entityManager->persist($doughnut);
-           $entityManager->flush();
-           return $this->generateResponse(Response::HTTP_CREATED, [
-               'Location' => ''
-           ]);
-       } catch (\Exception $exception) {
-           // TODO return form errors
-           return $this->generateResponse(Response::HTTP_BAD_REQUEST);
-       }
+       $doughnut = $this->getFormProcessor()->submit(DoughnutType::class);
+       $entityManager->persist($doughnut);
+       $entityManager->flush();
+       // TODO include location uri in location header
+       return $this->generateResponse(Response::HTTP_CREATED, [
+           'Location' => ''
+       ]);
     }
 
     /**
