@@ -23,5 +23,23 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    App\Controller\Doughnutcontroller:
+        arguments:
+          - '@App\Services\FormProcessor'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Services\FormProcessor:
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@form.factory'
+            - '@request_stack'
+
+    App\Event\RequestListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'kernel.request' }
+
+    App\Event\Subscriber\DoctrineEventSubscriber:
+        tags:
+            - { name: 'doctrine.event_listener', event: 'prePersist' }

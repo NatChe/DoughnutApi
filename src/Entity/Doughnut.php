@@ -4,6 +4,7 @@
 namespace App\Entity;
 
 /** Usages */
+use App\Entity\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -64,9 +65,9 @@ class Doughnut
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getReference(): string
+    public function getReference(): ?string
     {
         return $this->reference;
     }
@@ -82,9 +83,9 @@ class Doughnut
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -100,9 +101,9 @@ class Doughnut
     }
 
     /**
-     * @return string
+     * @return null|string
      */
-    public function getFlavour(): string
+    public function getFlavour(): ?string
     {
         return $this->flavour;
     }

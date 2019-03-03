@@ -1,6 +1,6 @@
 <?php
-/** Namespaces */
-namespace App\Entity;
+/** Namespace */
+namespace App\Entity\Traits;
 
 /**
  * Trait TimestampTrait
@@ -21,9 +21,9 @@ trait TimestampableTrait {
     protected $createdAt;
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getUpdatedAt(): \DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -39,9 +39,9 @@ trait TimestampableTrait {
     }
 
     /**
-     * @return \DateTime
+     * @return \DateTime|null
      */
-    public function getCreatedAt(): \DateTime
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
