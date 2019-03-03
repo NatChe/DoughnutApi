@@ -10,7 +10,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -51,16 +50,6 @@ class DoughnutController extends AbstractController
             ->getRepository(Doughnut::class)
             ->findAll();
         return new JsonResponse($doughnuts);
-    }
-
-    /**
-     * @Route("/doughnuts/{id}/", methods={"GET"})
-     * @param $id
-     * @return Response
-     */
-    public function get($id)
-    {
-        return new Response($id);
     }
 
     /**
