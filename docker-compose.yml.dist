@@ -10,19 +10,19 @@ services:
             - .:/home/wwwroot/doughnut_api
         depends_on:
             - php
-        networks:
-            - main
 
     mysql:
-        image: mysql
-        command: "--default-authentication-plugin=mysql_native_password"
+        image: mysql:5.7
         container_name: doughnut_mysql
         volumes:
             - .docker/data/db:/var/lib/mysql
+        restart: always
+        ports:
+            - 3306:3306
         environment:
             MYSQL_ROOT_PASSWORD: root
             MYSQL_DATABASE: doughnuts
-            MYSQL_USER: dougnut_user
+            MYSQL_USER: doughnut_user
             MYSQL_PASSWORD: doughnut_password
 
     php:
@@ -32,21 +32,14 @@ services:
             - .:/home/wwwroot/doughnut_api
         depends_on:
             - mysql
-        networks:
-            - main
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         container_name: doughnut_phpmyadmin
         environment:
           PMA_HOST: mysql
-          PMA_PORT: 3306
+          MYSQL_ROOT_PASSWORD: root
         ports:
             - 8081:80
-        links:
+        depends_on:
             - mysql
-        networks:
-            - main
-
-networks:
-    main:
